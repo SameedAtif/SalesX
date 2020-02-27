@@ -1,68 +1,53 @@
+## Introduction
+
+SalesX is a next-gen Point of Sales system, built using Electron and ReactJS.
+
+## Getting Started
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+To view the SQLite database, you will most likely need [DB Browser for SQLite](https://sqlitebrowser.org/dl/).
 
-In the project directory, you can run:
+To setup and run the program:
 
-### `npm start`
+1. Make sure you have NodeJS installed and updated.
+2. From the project root directory, run:
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+    `npm install`
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+3. To start only React version, run:
 
-### `npm test`
+    `npm run react-start`
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+4. To start the complete app, run:
 
-### `npm run build`
+    `npm run start`
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Packaging/Building
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+To build a platform specific release, you need to be on that platform (or at least that's what I think). Run:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+`npm run build`
 
-### `npm run eject`
+To configure build options, see [electron-builder configuration docs](https://www.electron.build/configuration/configuration).
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Miscellaneous Info
+### Tutorials Used
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- [Desktop App with Electron and React - Will Ward](https://www.youtube.com/watch?v=Cdu2O6o2DCg)
+- [Developing ElectronJS applications with SQLite3 - Tarik Guney](https://www.youtube.com/watch?v=c76FTxLRwAw)
+- [Electron Tutorial: Get data from database and display it using JQuery](https://www.youtube.com/watch?v=oxZ5lIk4B38)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+comment on: https://www.youtube.com/watch?v=zq-XcnjLpXI
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+I personally can't recommend Create React App for Electron development. You can't use native node modules with Create React App [0]. This way Electron becomes just a Chromium window. I would recommend Electron Forge[1] with the React template[2] or as you mentioned Electron React Boilerplate [3]. 
 
-## Learn More
+The React template of Electron Forge is much less opinionated about react, but delivers a lot of Electron goodies like building and publishing of packages. It also comes with electron-compile[4]. Which lets you use a plethora of languages for Electron development.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Electron React Boilerplate on the other hand is much more similar to Create React App in regard to project structure and react development. But it is not as advanced as electron-forge in regard to electron.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+[0] https://github.com/facebook/create-react-app/issues/3074
+[1] https://electronforge.io/
+[2] https://electronforge.io/templates
+[3] https://github.com/electron-react-boilerplate/electron-react-boilerplate
+[4] https://github.com/electron-userland/electron-compile
