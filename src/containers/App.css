@@ -14,6 +14,10 @@ header, main, footer {
     grid-template-columns: repeat(12, 1fr);
 }
 
+main {
+    display: grid;
+}
+
 .items-list, .invoice {
     margin: 15px;
     padding: 15px;

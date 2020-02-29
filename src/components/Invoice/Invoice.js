@@ -1,5 +1,5 @@
 import React from 'react'
-import Product from '../Products/Product/Product'
+import InvoiceItem from './InvoiceItem'
 
 class Invoice extends React.Component {
     constructor(props) {
@@ -14,8 +14,8 @@ class Invoice extends React.Component {
     render() {
         let total = 0
         const items = this.state.items.map(item => {
-            total += item.price
-            return <Product key={item.id} name={item.name} price={item.price} />
+            total += (item.price * item.quantity)
+            return <InvoiceItem key={item.id} id={item.id} name={item.name} price={item.price} quantity={item.quantity} />
         })
 
         return (
@@ -31,7 +31,24 @@ class Invoice extends React.Component {
 
     componentDidMount() {
         document.addEventListener('itemclicked', (e) => {
-            this.setState({items: [...this.state.items, e.itemData]})
+            const itemIndex = this.state.items.findIndex(item => e.itemData.id === item.id)
+            console.log(itemIndex)
+            if (itemIndex >= 0) {
+                this.setState(({ items }) => ({
+                    items: [
+                        ...items.slice(0, itemIndex),
+                        {
+                            ...items[itemIndex],
+                            quantity: items[itemIndex].quantity + 1
+                        },
+                        ...items.slice(itemIndex + 1)
+                    ]
+                }))
+            } else {
+                const newItem = e.itemData
+                newItem.quantity = 1
+                this.setState({ items: [...this.state.items, newItem] })
+            }
         })
     }
 }

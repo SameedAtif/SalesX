@@ -1,14 +1,13 @@
 import React from 'react'
 import axios from 'axios'
-import Product from './Product/Product'
+import Item from './Item/Item'
 
-class Products extends React.Component {
+class Items extends React.Component {
     constructor(props) {
         super(props)
 
-        console.log("Products created")
         this.state = {
-            products: [
+            items: [
                 { id: "11", name: "Dummy 1", price: "100" },
                 { id: "22", name: "Dummy 2", price: "100" },
                 { id: "33", name: "Dummy 3", price: "100" }
@@ -21,21 +20,21 @@ class Products extends React.Component {
             .then(response => {
                 console.log(response.data)
 
-                this.setState({ products: response.data })
+                this.setState({ items: response.data })
             })
     }
 
     render() {
-        const products = this.state.products.map(product => {
-            return <Product key={product.id} name={product.name} price={product.price} />
+        const items = this.state.items.map(item => {
+            return <Item key={item.id} id={item.id} name={item.name} price={item.price} />
         })
 
         return (
             <div className='items-list'>
-                {products}
+                {items}
             </div>
         )
     }
 }
 
-export default Products
+export default Items

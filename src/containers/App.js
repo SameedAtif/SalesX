@@ -1,7 +1,7 @@
 import React from 'react';
 //import logo from '../logo.svg';
 import './App.css';
-import Products from '../components/Products/Products'
+import Items from '../components/Items/Items'
 import Invoice from '../components/Invoice/Invoice'
 
 class App extends React.Component {
@@ -19,11 +19,13 @@ class App extends React.Component {
             <div className='container'>
                 <header></header>
                 <main>
-                    <Products />
+                    <Items />
 
                     <Invoice items={this.state.invoiceItems} />
                 </main>
-                <footer></footer>
+                <footer>
+                    &copy; Copyright 2020, InYourDream Inc. All rights reserved.
+                </footer>
             </div>
         )
     }
