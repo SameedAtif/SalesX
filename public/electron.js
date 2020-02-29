@@ -2,7 +2,7 @@ const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path')
 const isDev = require('electron-is-dev')
 
-function createWindow(pageSrc, { bg = '#2e2c29', frame = true, show = true, transparent = false } = {}) {
+function createWindow(pageSrc, { bg = '#ffffff', frame = true, show = true, transparent = false } = {}) {
     let window = new BrowserWindow({
         width: 800,
         height: 600,
@@ -24,7 +24,7 @@ function createWindow(pageSrc, { bg = '#2e2c29', frame = true, show = true, tran
     return window
 }
 
-function createSplashWindow(pageSrc, { bg = '#2e2c29', show = false, transparent = false } = {}) {
+function createSplashWindow(pageSrc, { bg = '#ffffff', show = false, transparent = false } = {}) {
     let window = new BrowserWindow({
         width: 800,
         height: 600,

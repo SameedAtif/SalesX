@@ -1,4 +1,5 @@
 import React from 'react'
+import axios from 'axios'
 import Product from './Product/Product'
 
 class Products extends React.Component {
@@ -13,39 +14,25 @@ class Products extends React.Component {
                 { id: "33", name: "Dummy 3", price: "100" }
             ]
         }
-
-        var xhr = new XMLHttpRequest()
-
-        xhr.onreadystatechange = (e) => {
-            const response = e.target
-            if (response.readyState === 4 && response.status === 200) {
-
-                let newProducts = JSON.parse(xhr.responseText).map(product => {
-                    return product
-                })
-
-                this.setState({ products: newProducts })
-            }
-        }
-
-        xhr.open('GET', 'http://localhost:3005/items')
-        xhr.send()
     }
 
-    componentDidUpdate() {
-        console.log("Products updated")
-        console.log(this.state)
+    componentDidMount() {
+        axios.get('http://localhost:3005/items')
+            .then(response => {
+                console.log(response.data)
+
+                this.setState({ products: response.data })
+            })
     }
 
     render() {
-        console.log("Products rendering")
-        //console.log(this.state)
+        const products = this.state.products.map(product => {
+            return <Product key={product.id} name={product.name} price={product.price} />
+        })
+
         return (
-            <div>
-                {this.state.products.map(product => {
-                    console.log(product.id)
-                    return <Product key={product.id} id={product.id} name={product.name} price={product.price} />
-                })}
+            <div className='items-list'>
+                {products}
             </div>
         )
     }

@@ -1,0 +1,29 @@
+html {
+    background-color: #121212;
+    color: #c2c2c2;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: 50px 350px 50px;
+}
+
+header, main, footer {
+    grid-column: span 12;
+    grid-template-columns: repeat(12, 1fr);
+}
+
+.items-list, .invoice {
+    margin: 15px;
+    padding: 15px;
+    background-color: #2f2e2e;
+}
+
+.items-list {
+    grid-column: span 8;
+}
+
+.invoice {
+    grid-column: span 4;
+}

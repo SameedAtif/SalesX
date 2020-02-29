@@ -11,9 +11,17 @@ class Product extends React.Component {
         }
     }
 
+    itemClicked(id) {
+        const event = document.createEvent("HTMLEvents")
+        event.initEvent("itemclicked", true, true)
+        event.eventName = "itemclicked"
+        event.itemData = this.state
+        document.dispatchEvent(event)
+    }
+
     render() {
         return (
-            <div>
+            <div onClick={() => this.itemClicked(this.state.id)}>
                 {this.state.name} ${this.state.price}
             </div>
         )

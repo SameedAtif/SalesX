@@ -3,9 +3,12 @@ const isDev = require('electron-is-dev')
 const express = require('express')
 const cors = require('cors')
 const knex = require('knex')({
-    client: 'sqlite3',
+    client: 'mysql',
     connection: {
-        filename: isDev ? 'db.sqlite' : path.join(__dirname, '../../db.sqlite')
+        host: '127.0.0.1',
+        user: 'root',
+        password: '',
+        database: 'salesx'
     },
     acquireConnectionTimeout: 10000
 })
