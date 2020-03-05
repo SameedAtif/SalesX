@@ -1,5 +1,6 @@
 import React from 'react'
 import InvoiceItem from './InvoiceItem'
+import XButton from '../XButton/XButton'
 
 class Invoice extends React.Component {
     constructor(props) {
@@ -12,21 +13,11 @@ class Invoice extends React.Component {
     }
 
     render() {
-        let total = 0
-        const items = this.state.items.map(item => {
-            total += (item.price * item.quantity)
-            return <InvoiceItem key={item.id} id={item.id} name={item.name} price={item.price} quantity={item.quantity} />
-        })
-
-        return (
-            <div className="invoice" onClick={this.props.clickHandler}>
-                {items}
-
-                <div>
-                    <h4>Total: {total}</h4>
-                </div>
-            </div>
-        )
+        if (this.state.items.length === 0) {
+            return this.renderNoItems()
+        } else {
+            return this.renderItems()
+        }
     }
 
     componentDidMount() {
@@ -50,6 +41,37 @@ class Invoice extends React.Component {
                 this.setState({ items: [...this.state.items, newItem] })
             }
         })
+    }
+
+    renderNoItems() {
+        return (
+            <div className="invoice">
+                No items in invoice. Select any from items list to add to invoice.
+            </div>
+        )
+    }
+
+    renderItems() {
+        let total = 0
+        const items = this.state.items.map(item => {
+            total += (item.price * item.quantity)
+            return <InvoiceItem key={item.id} id={item.id} name={item.name} price={item.price} quantity={item.quantity} />
+        })
+
+        return (
+            <div className="invoice" onClick={this.props.clickHandler}>
+                {items}
+
+                <div>
+                    <h4>Total: ${total}</h4>
+                </div>
+
+                <div className='flex-container'>
+                    <XButton text='Print' />
+                    <XButton text='Clear' />
+                </div>
+            </div>
+        )
     }
 }
 

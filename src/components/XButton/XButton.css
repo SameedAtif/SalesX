@@ -1,0 +1,10 @@
+.btn {
+    color: #5198e2;
+    margin: auto 15px auto 0;
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+.btn:hover {
+    color: rgba(255, 255, 255, 0.3)
+}

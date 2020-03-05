@@ -9,9 +9,25 @@ html {
     grid-template-rows: 50px 350px 50px;
 }
 
+.flex-container {
+    display: flex;
+}
+
 header, main, footer {
     grid-column: span 12;
     grid-template-columns: repeat(12, 1fr);
+}
+
+header, footer {
+    display: flex;
+}
+
+header {
+    justify-content: flex-end;
+}
+
+footer {
+    justify-content: flex-start;
 }
 
 main {
@@ -30,4 +46,21 @@ main {
 
 .invoice {
     grid-column: span 4;
+}
+
+input {
+    width: 100%;
+    background-color: #121212;
+    color: #c2c2c2;
+    margin-bottom: 5px;
+    padding: 5px 0 2px 5px;
+    text-align: center;
+    border-radius: 25px;
+    border: none;
+    transition: 1s;
+}
+
+input:focus {
+    box-shadow: 0 0 4px #ffffff;
+    outline: none;
 }

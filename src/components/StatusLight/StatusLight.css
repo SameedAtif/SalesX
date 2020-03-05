@@ -1,0 +1,30 @@
+.status-light {
+    margin: auto 15px;
+}
+
+.status-light > span {
+    width: 7px;
+    height: 7px;
+    border-radius: 20px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.status-light > .green {
+    background-color: #01a701;
+    box-shadow: 0 0 5px #00ff00;
+}
+
+.status-light > .in-progress {
+    box-shadow: 0 0 5px #00ff00;
+    animation: in-progress;
+    animation-timing-function: linear;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes in-progress {
+    0%, 30% { background-color: #01a701; }
+    40%, 90% { background-color: aqua; }
+    100% { background-color: #01a701; }
+}

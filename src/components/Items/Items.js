@@ -7,6 +7,7 @@ class Items extends React.Component {
         super(props)
 
         this.state = {
+            filter: '',
             items: [
                 { id: "11", name: "Dummy 1", price: "100" },
                 { id: "22", name: "Dummy 2", price: "100" },
@@ -25,15 +26,28 @@ class Items extends React.Component {
     }
 
     render() {
-        const items = this.state.items.map(item => {
+        const items = this.state.items.filter(item => {
+            if (item.name.toLowerCase().indexOf(this.state.filter) === -1)
+                return false
+            return true
+        }).map(item => {
             return <Item key={item.id} id={item.id} name={item.name} price={item.price} />
         })
 
         return (
             <div className='items-list'>
-                {items}
+                <input type='text' className='filter' onChange={e => this.updateFilter(e)} placeholder='Type here to filter items' />
+                <div>
+                    {items}
+                </div>
             </div>
         )
+    }
+
+    updateFilter(event) {
+        this.setState({
+            filter: event.target.value
+        })
     }
 }
 

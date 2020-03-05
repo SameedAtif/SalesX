@@ -3,6 +3,8 @@ import React from 'react';
 import './App.css';
 import Items from '../components/Items/Items'
 import Invoice from '../components/Invoice/Invoice'
+import XButton from '../components/XButton/XButton'
+import StatusLight from '../components/StatusLight/StatusLight';
 
 class App extends React.Component {
 
@@ -17,14 +19,19 @@ class App extends React.Component {
     render() {
         return (
             <div className='container'>
-                <header></header>
+                <header>
+                    <XButton text='About' />
+                    <XButton text='Settings' />
+                </header>
                 <main>
                     <Items />
 
                     <Invoice items={this.state.invoiceItems} />
                 </main>
                 <footer>
-                    &copy; Copyright 2020, InYourDream Inc. All rights reserved.
+                    <StatusLight state='in-progress' label='syncing' />
+                    <StatusLight state='green' label='cloud connection' />
+                    <StatusLight state='green' label='disk state' />
                 </footer>
             </div>
         )
