@@ -1,4 +1,5 @@
 import React from 'react'
+import XButton from '../../XButton/XButton'
 
 class Item extends React.Component {
     constructor(props) {
@@ -21,9 +22,12 @@ class Item extends React.Component {
 
     render() {
         return (
-            <div onClick={() => this.itemClicked(this.state.id)}>
-                {this.state.name} ${this.state.price}
-            </div>
+            <tr className='item' title='Click to add to invoice'>
+                <td>{this.state.name}</td>
+                <td>{this.state.price}</td>
+                <td>-1</td>
+                <td><XButton text='Add' clickHandler={() => this.itemClicked(this.state.id)} /></td>
+            </tr>
         )
     }
 }

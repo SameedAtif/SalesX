@@ -8,7 +8,9 @@ class Invoice extends React.Component {
 
         this.state = {
             id: props.id,
-            items: []
+            items: [],
+            discount: 0,
+            customerPaid: 0
         }
     }
 
@@ -18,6 +20,23 @@ class Invoice extends React.Component {
         } else {
             return this.renderItems()
         }
+    }
+
+    reset() {
+        this.setState({
+            items: [],
+            discount: 0,
+            customerPaid: 0
+        })
+    }
+
+    remove(index) {
+        let arr = [...this.state.items]
+        arr.splice(index, 1)
+
+        this.setState({
+            items: arr
+        })
     }
 
     componentDidMount() {
@@ -53,22 +72,48 @@ class Invoice extends React.Component {
 
     renderItems() {
         let total = 0
-        const items = this.state.items.map(item => {
+        const items = this.state.items.map((item, index) => {
             total += (item.price * item.quantity)
-            return <InvoiceItem key={item.id} id={item.id} name={item.name} price={item.price} quantity={item.quantity} />
+            return <InvoiceItem key={item.id} id={item.id} name={item.name} price={item.price} quantity={item.quantity} removeHandler={() => this.remove(index)} />
         })
 
         return (
             <div className="invoice" onClick={this.props.clickHandler}>
-                {items}
+                <table style={{ width: '100%', maxHeight: '200px', overflowY: 'scroll' }}>
+                    <tbody>
+                    {items}
+                    </tbody>
+                </table>
+
+                <div className='summary'>
+                    <div>
+                        <p>Discount</p>
+                        <p style={{ fontSize: '24px' }}>{this.state.discount}%</p>
+                    </div>
+                    <div>
+                        <p>Total Amount</p>
+                        <p style={{ fontSize: '24px' }}>${total}</p>
+                    </div>
+                    <div>
+                        <p>Payable Amount</p>
+                        <p style={{ fontSize: '24px' }}>${total - (total * this.state.discount)}</p>
+                    </div>
+                </div>
 
                 <div>
-                    <h4>Total: ${total}</h4>
+                    <h4>Customer paid</h4>
+                    <input type='number' defaultValue='0' min='0' onChange={(e) => this.setState({ customerPaid: e.target.value })} />
+                </div>
+
+                <div>
+                    <p>Customer Balance</p>
+                    <p style={{ fontSize: '24px' }}>${this.state.customerPaid - (total - (total * this.state.discount))}</p>
                 </div>
 
                 <div className='flex-container'>
+                    <XButton text='Complete Transaction' />
                     <XButton text='Print' />
-                    <XButton text='Clear' />
+                    <XButton text='Clear' clickHandler={() => this.reset()} />
                 </div>
             </div>
         )

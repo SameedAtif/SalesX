@@ -1,4 +1,5 @@
 import React from 'react'
+import XButton from '../XButton/XButton';
 
 class InvoiceItem extends React.Component {
     constructor(props) {
@@ -18,19 +19,15 @@ class InvoiceItem extends React.Component {
         }
     }
 
-    // itemClicked(id) {
-    //     const event = document.createEvent("HTMLEvents")
-    //     event.initEvent("itemclicked", true, true)
-    //     event.eventName = "itemclicked"
-    //     event.itemData = this.state
-    //     document.dispatchEvent(event)
-    // }
-
     render() {
         return (
-            <div /*onClick={() => this.itemClicked(this.state.id)}*/>
-                {this.id} {this.state.name} {this.state.quantity} ${this.state.price}
-            </div>
+            <tr>
+                <td>{this.id}</td>
+                <td>{this.state.name}</td>
+                <td>{this.state.quantity}</td>
+                <td>${this.state.price}</td>
+                <td><XButton text='Remove' clickHandler={this.props.removeHandler} /></td>
+            </tr>
         )
     }
 }

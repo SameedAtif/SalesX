@@ -29,9 +29,9 @@ class App extends React.Component {
                     <Invoice items={this.state.invoiceItems} />
                 </main>
                 <footer>
-                    <StatusLight state='in-progress' label='syncing' />
-                    <StatusLight state='green' label='cloud connection' />
-                    <StatusLight state='green' label='disk state' />
+                    <StatusLight state='in-progress' label='syncing' tooltip='Transferring data' />
+                    <StatusLight state='green' label='cloud connection' tooltip='Secure & Ready' />
+                    <StatusLight state='green' label='disk state' tooltip='Good' />
                 </footer>
             </div>
         )

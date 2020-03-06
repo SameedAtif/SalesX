@@ -4,7 +4,7 @@ import './XButton.css'
 
 function XButton(props) {
     return (
-        <div className='btn'>{props.text}</div>
+        <div className='btn' onClick={props.clickHandler}>{props.text}</div>
     )
 }
 

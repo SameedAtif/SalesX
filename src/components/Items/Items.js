@@ -2,6 +2,8 @@ import React from 'react'
 import axios from 'axios'
 import Item from './Item/Item'
 
+import './Items.css'
+
 class Items extends React.Component {
     constructor(props) {
         super(props)
@@ -37,9 +39,19 @@ class Items extends React.Component {
         return (
             <div className='items-list'>
                 <input type='text' className='filter' onChange={e => this.updateFilter(e)} placeholder='Type here to filter items' />
-                <div>
-                    {items}
-                </div>
+                
+                <table className='items-table'>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {items}
+                    </tbody>
+                </table>
             </div>
         )
     }

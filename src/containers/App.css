@@ -6,7 +6,7 @@ html {
 .container {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
-    grid-template-rows: 50px 350px 50px;
+    grid-template-rows: 50px 1fr 50px;
 }
 
 .flex-container {
@@ -48,6 +48,11 @@ main {
     grid-column: span 4;
 }
 
+.invoice .summary {
+    display: flex;
+    justify-content: space-between;
+}
+
 input {
     width: 100%;
     background-color: #121212;
@@ -63,4 +68,9 @@ input {
 input:focus {
     box-shadow: 0 0 4px #ffffff;
     outline: none;
+}
+
+input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
