@@ -13,6 +13,8 @@ const knex = require('knex')({
     acquireConnectionTimeout: 10000
 })
 
+const { createTablesIfTheyDontExist } = require('./schema')
+
 const app = express()
 const PORT = 3005
 
@@ -34,5 +36,7 @@ app.get('/items', (req, res) => {
 })
 
 app.listen(PORT, () => console.log(`Express server listening on port ${PORT}`))
+
+createTablesIfTheyDontExist(knex)
 
 module.exports = app

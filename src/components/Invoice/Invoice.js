@@ -81,7 +81,7 @@ class Invoice extends React.Component {
             <div className="invoice" onClick={this.props.clickHandler}>
                 <table style={{ width: '100%', maxHeight: '200px', overflowY: 'scroll' }}>
                     <tbody>
-                    {items}
+                        {items}
                     </tbody>
                 </table>
 
