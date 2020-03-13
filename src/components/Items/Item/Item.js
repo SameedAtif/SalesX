@@ -8,7 +8,8 @@ class Item extends React.Component {
         this.state = {
             id: props.id,
             name: props.name,
-            price: props.price
+            price: props.price,
+            barcode: props.barcode
         }
     }
 

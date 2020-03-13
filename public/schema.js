@@ -7,12 +7,13 @@ const knex = require('knex')
 const tables = {
     'Items': function (table) {
         table.increments()
-        table.string('name')
-        table.float('price')
+        table.string('name').notNullable()
+        table.float('price').notNullable()
+        table.string('barcode')
     },
     'Inventory': function (table) {
         table.integer('item_id').unsigned()
-        table.float('quantity')
+        table.float('quantity').notNullable()
 
         table.foreign('item_id').references('Items.id')
     }

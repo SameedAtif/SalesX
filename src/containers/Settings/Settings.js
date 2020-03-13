@@ -1,12 +1,13 @@
 import React from 'react'
 
 import { BrowserQRCodeReader } from '@zxing/library'
+import axios from 'axios';
 
 class Settings extends React.Component {
-    codeReader = new BrowserQRCodeReader();
-
     constructor(props) {
         super(props)
+
+        this.codeReader = new BrowserQRCodeReader()
 
         this.state = {
             selectedDevice: 0,
@@ -14,12 +15,21 @@ class Settings extends React.Component {
         }
     }
 
+    componentWillMount() {
+        this.updateVideoDevices()
+
+        axios.get('http://localhost:3005/input-video-device')
+            .then(response => {
+                this.setState({ inputVideoDeviceId: response.data.inputVideoDeviceId })
+            })
+    }
+
     render() {
         const options = this.state.videoDevices.map(device => {
             return <option key={device.deviceId} value={device.deviceId}>{device.label}</option>
         })
         return (
-            <div>
+            <main>
                 <h1>Settings page...</h1>
                 <video
                     id="video"
@@ -28,42 +38,51 @@ class Settings extends React.Component {
                     style={{ border: '1px solid gray' }}
                 ></video>
 
-                <select onChange={(e) => { console.log(e); this.setState({ selectedDevice: e.target.selectedIndex }) }}>
+                <select onChange={(e) => { this.updateSelectedDevice(e.target.selectedIndex) }}>
                     {options}
                 </select>
-            </div>
+            </main>
         )
     }
 
-    componentDidMount() {
-        this.updateVideoDevices()
+    updateSelectedDevice(index) {
+        this.setState({ selectedDevice: index })
+
+        axios.post('http://localhost:3005/input-video-device', {
+            'videoInputDevice': this.state.videoDevices[index].label
+        }).then(response => {
+            console.log(response)
+        })
     }
 
     updateVideoDevices() {
         this.codeReader
             .listVideoInputDevices()
             .then(videoInputDevices => {
-                let devices = []
-                videoInputDevices.forEach(device =>
-                    devices.push(device)
-                )
-
-                this.setState({ videoDevices: devices }, this.renderVideo)
+                this.setState({ videoDevices: videoInputDevices })
             })
             .catch(err => console.error(err))
+    }
+
+    sleep(ms) {
+        const date = Date.now()
+        let currentDate = null
+        do {
+            currentDate = Date.now()
+        } while (currentDate - date < ms)
     }
 
     renderVideo() {
         this.codeReader
             .decodeOnceFromVideoDevice(this.state.videoDevices[this.state.selectedDevice].deviceId, 'video')
             .then(result => console.log(result.text))
-            .catch(err => console.error(err))
+            .catch(err => console.error('lmao', err))
     }
 
-    // TODO: Stop playing the god damn video before unmounting
     componentWillUnmount() {
-        //this.codeReader.
-        console.log('Unmounting Settings')
+        this.codeReader.stopStreams()
+
+        console.log('Unmounted Settings')
     }
 }
 

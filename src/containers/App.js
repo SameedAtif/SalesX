@@ -22,7 +22,7 @@ class App extends React.Component {
                 <div className='container'>
                     <header>
                         <Link to='/' className='btn'>Home</Link>
-                        <Link to='/about' className='btn'>About</Link>
+                        <Link to='/inventory' className='btn'>Inventory</Link>
                         <Link to='/settings' className='btn'>Settings</Link>
                     </header>
                     <Router>

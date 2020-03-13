@@ -40,6 +40,7 @@ class Invoice extends React.Component {
     }
 
     componentDidMount() {
+        // Listen for, and handle, itemclicked event
         document.addEventListener('itemclicked', (e) => {
             const itemIndex = this.state.items.findIndex(item => e.itemData.id === item.id)
             console.log(itemIndex)
@@ -59,6 +60,11 @@ class Invoice extends React.Component {
                 newItem.quantity = 1
                 this.setState({ items: [...this.state.items, newItem] })
             }
+        })
+
+        // Listen for, and handle, barcode scan event
+        document.addEventListener('barcode-scanned', (e) => {
+            console.log(e)
         })
     }
 
