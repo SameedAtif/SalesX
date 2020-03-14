@@ -1,7 +1,7 @@
 import React from 'react'
 import axios from 'axios'
 import Item from './Item/Item'
-import { BrowserQRCodeReader, NotFoundException, ChecksumException, FormatException } from '@zxing/library'
+import { BrowserBarcodeReader, NotFoundException, ChecksumException, FormatException } from '@zxing/library'
 
 import './Items.css'
 
@@ -9,7 +9,7 @@ class Items extends React.Component {
     constructor(props) {
         super(props)
 
-        this.codeReader = new BrowserQRCodeReader()
+        this.codeReader = new BrowserBarcodeReader()
         this.codeReader.timeBetweenDecodingAttempts = 2000
 
         this.state = {

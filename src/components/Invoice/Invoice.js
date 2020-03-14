@@ -42,7 +42,17 @@ class Invoice extends React.Component {
     componentDidMount() {
         // Listen for, and handle, itemclicked event
         document.addEventListener('itemclicked', (e) => {
-            const itemIndex = this.state.items.findIndex(item => e.itemData.id === item.id)
+            this.addItem(e.itemData)
+        })
+
+        // Listen for, and handle, barcode scan event
+        document.addEventListener('barcode-scanned', (e) => {
+            this.addItem(e.itemData)
+        })
+    }
+    
+    addItem(itemData) {
+        const itemIndex = this.state.items.findIndex(item => itemData.id === item.id)
             console.log(itemIndex)
             if (itemIndex >= 0) {
                 this.setState(({ items }) => ({
@@ -56,16 +66,10 @@ class Invoice extends React.Component {
                     ]
                 }))
             } else {
-                const newItem = e.itemData
+                const newItem = itemData
                 newItem.quantity = 1
                 this.setState({ items: [...this.state.items, newItem] })
             }
-        })
-
-        // Listen for, and handle, barcode scan event
-        document.addEventListener('barcode-scanned', (e) => {
-            console.log(e)
-        })
     }
 
     renderNoItems() {
