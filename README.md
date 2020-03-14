@@ -1,25 +1,26 @@
 ## Introduction
 
-SalesX is a next-gen Point of Sales system, built using Electron and ReactJS.
-
-## Getting Started
+SalesX is a next-gen Point of Sales system, built using Electron and M(ySQL)ERN stack. 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-To view the SQLite database, you will most likely need [DB Browser for SQLite](https://sqlitebrowser.org/dl/).
+## Getting Started
 
 To setup and run the program:
 
 1. Make sure you have NodeJS installed and updated.
-2. From the project root directory, run:
+2. MySQL installed and running.
+3. From the project root directory, run:
 
     `npm install`
 
-3. To start only React version, run:
+    This will install all the required dependencies.
+
+4. (optional) To start only React version, run:
 
     `npm run react-start`
 
-4. To start the complete app, run:
+5. To start the complete app, run:
 
     `npm run start`
 
