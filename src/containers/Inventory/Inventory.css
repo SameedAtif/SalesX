@@ -1,0 +1,4 @@
+.inventory {
+    grid-column: span 8;
+    min-height: 400px;
+}

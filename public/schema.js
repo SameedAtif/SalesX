@@ -2,7 +2,7 @@
  * http://knexjs.org/#Schema
  */
 
-const knex = require('knex')
+const { knex } = require('./dbService')
 
 const tables = {
     'Items': function (table) {
@@ -19,18 +19,4 @@ const tables = {
     }
 }
 
-module.exports = {
-    createTablesIfTheyDontExist: function (knexInstance) {
-        for (const table in tables) {
-            knexInstance.schema.withSchema('salesx').hasTable(table).then(function (exists) {
-                if (!exists) {
-                    console.log(`Creating table ${table}...`)
-                    return knexInstance.schema.withSchema('salesx')
-                        .createTable(table, tables[table])
-                } else {
-                    console.log(`${table} table already exists!`)
-                }
-            })
-        }
-    }
-}
+module.exports = tables

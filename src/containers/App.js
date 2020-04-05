@@ -1,10 +1,15 @@
 import React from 'react'
-import { HashRouter as Router, Route, Link } from 'react-router-dom'
-//import logo from '../logo.svg';
-import './App.css'
+import { HashRouter as Router, Switch, Route } from 'react-router-dom'
+
+import Main from '../components/templates/Main'
+
+import Prelude from './Prelude/Prelude'
 import Dashboard from './Dashboard/Dashboard'
+import Inventory from './Inventory/Inventory'
 import Settings from './Settings/Settings'
-import StatusLight from '../components/StatusLight/StatusLight'
+
+import './App.css'
+//import logo from '../logo.svg'
 
 class App extends React.Component {
 
@@ -19,22 +24,14 @@ class App extends React.Component {
     render() {
         return (
             <Router>
-                <div className='container'>
-                    <header>
-                        <Link to='/' className='btn'>Home</Link>
-                        <Link to='/inventory' className='btn'>Inventory</Link>
-                        <Link to='/settings' className='btn'>Settings</Link>
-                    </header>
-                    <Router>
-                        <Route path='/' exact component={Dashboard} />
+                <Switch>
+                    <Route path='/' exact component={Prelude} />
+                    <Main>
+                        <Route path='/dashboard' component={Dashboard} />
+                        <Route path='/inventory' component={Inventory} />
                         <Route path='/settings' component={Settings} />
-                    </Router>
-                    <footer>
-                        <StatusLight state='in-progress' label='syncing' tooltip='Transferring data' />
-                        <StatusLight state='green' label='cloud connection' tooltip='Secure & Ready' />
-                        <StatusLight state='green' label='disk state' tooltip='Good' />
-                    </footer>
-                </div>
+                    </Main>
+                </Switch>
             </Router>
         )
     }

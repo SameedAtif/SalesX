@@ -5,6 +5,10 @@
     transition: 0.5s;
 }
 
+.btn:focus {
+    outline: none;
+}
+
 .btn:hover {
-    color: rgba(255, 255, 255, 0.3)
+    color: rgba(255, 255, 255, 0.3);
 }

@@ -1,7 +1,8 @@
 import React from 'react'
-import axios from 'axios'
 import Item from './Item/Item'
 import { BrowserBarcodeReader, NotFoundException, ChecksumException, FormatException } from '@zxing/library'
+
+import http from '../../services/httpService'
 
 import './Items.css'
 
@@ -21,33 +22,34 @@ class Items extends React.Component {
             ],
             videoInputDevice: null
         }
+
+        this.setupVideoScanner()
     }
 
-    componentWillMount() {
-        axios.get('http://localhost:3005/input-video-device')
-            .then(response => {
-                //console.log(response)
-                this.setState({ videoInputDevice: response.data.videoInputDevice }, () => {
-                    if (this.state.videoInputDevice !== null) {
-                        this.codeReader
-                            .listVideoInputDevices()
-                            .then(videoInputDevices => {
-                                const savedDevice = videoInputDevices.find(device => device.label === this.state.videoInputDevice)
-            
-                                this.startBarcodeScanning(savedDevice.deviceId)
-                            })
-                    }
-                })
-            })
+    async setupVideoScanner() {
+        const { data } = await http.get('http://localhost:3005/input-video-device')
+
+        this.setState({ videoInputDevice: data.videoInputDevice }, async () => {
+            if (this.state.videoInputDevice !== null) {
+                const videoInputDevices = await this.codeReader.listVideoInputDevices()
+
+                if (!videoInputDevices) {
+
+                    return
+                }
+
+                let savedDevice = videoInputDevices.find(device => device.label === this.state.videoInputDevice)
+                if (!savedDevice)
+                    savedDevice = videoInputDevices[0]
+
+                this.startBarcodeScanning(savedDevice.deviceId)
+            }
+        })
     }
 
-    componentDidMount() {
-        axios.get('http://localhost:3005/items')
-            .then(response => {
-                //console.log(response.data)
-
-                this.setState({ items: response.data })
-            })
+    async componentDidMount() {
+        const { data: items } = await http.get('/items')
+        this.setState({ items })
     }
 
     render() {
@@ -60,7 +62,7 @@ class Items extends React.Component {
         })
 
         return (
-            <div className='items-list'>
+            <section className='items-list'>
                 <input type='text' className='filter' onChange={e => this.updateFilter(e)} placeholder='Type here to filter items' />
 
                 <table className='items-table'>
@@ -75,7 +77,7 @@ class Items extends React.Component {
                         {items}
                     </tbody>
                 </table>
-            </div>
+            </section>
         )
     }
 

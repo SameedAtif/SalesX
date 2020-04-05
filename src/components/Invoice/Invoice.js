@@ -1,6 +1,6 @@
 import React from 'react'
 import InvoiceItem from './InvoiceItem'
-import XButton from '../XButton/XButton'
+import XButton from '../common/XButton/XButton'
 
 class Invoice extends React.Component {
     constructor(props) {
@@ -74,9 +74,9 @@ class Invoice extends React.Component {
 
     renderNoItems() {
         return (
-            <div className="invoice">
+            <section className="invoice">
                 No items in invoice. Select any from items list to add to invoice.
-            </div>
+            </section>
         )
     }
 
@@ -88,7 +88,7 @@ class Invoice extends React.Component {
         })
 
         return (
-            <div className="invoice" onClick={this.props.clickHandler}>
+            <section className="invoice" onClick={this.props.clickHandler}>
                 <table style={{ width: '100%', maxHeight: '200px', overflowY: 'scroll' }}>
                     <tbody>
                         {items}
@@ -125,7 +125,7 @@ class Invoice extends React.Component {
                     <XButton text='Print' />
                     <XButton text='Clear' clickHandler={() => this.reset()} />
                 </div>
-            </div>
+            </section>
         )
     }
 }

@@ -1,0 +1,13 @@
+.items-list {
+    grid-column: span 8;
+    min-height: 400px;
+}
+
+.invoice {
+    grid-column: span 4;
+}
+
+.invoice .summary {
+    display: flex;
+    justify-content: space-between;
+}
