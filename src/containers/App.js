@@ -1,9 +1,10 @@
 import React from 'react'
-import { HashRouter as Router, Switch, Route } from 'react-router-dom'
+import { HashRouter as Router, Route } from 'react-router-dom'
 
-import Main from '../components/templates/Main'
+import ProtectedRoute from '../components/common/protectedRoute'
 
 import Prelude from './Prelude/Prelude'
+import Login from './Auth/login'
 import Dashboard from './Dashboard/Dashboard'
 import Inventory from './Inventory/Inventory'
 import Settings from './Settings/Settings'
@@ -12,26 +13,15 @@ import './App.css'
 //import logo from '../logo.svg'
 
 class App extends React.Component {
-
-    constructor(props) {
-        super(props)
-
-        this.state = {
-        }
-
-    }
-
     render() {
         return (
             <Router>
-                <Switch>
-                    <Route path='/' exact component={Prelude} />
-                    <Main>
-                        <Route path='/dashboard' component={Dashboard} />
-                        <Route path='/inventory' component={Inventory} />
-                        <Route path='/settings' component={Settings} />
-                    </Main>
-                </Switch>
+                <Route path='/' exact component={Prelude} />
+                <Route path='/login' component={Login} />
+
+                <ProtectedRoute path='/dashboard' component={Dashboard} />
+                <ProtectedRoute path='/inventory' component={Inventory} />
+                <ProtectedRoute path='/settings' component={Settings} />
             </Router>
         )
     }

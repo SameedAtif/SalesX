@@ -1,5 +1,7 @@
 import React from 'react'
 
+import Main from '../../components/templates/Main'
+
 import http from '../../services/httpService'
 
 import './Inventory.css'
@@ -46,25 +48,27 @@ class Settings extends React.Component {
         })
 
         return (
-            <main>
-                <section className='inventory'>
-                    <input type='text' className='filter' onChange={e => this.updateFilter(e)} placeholder='Type here to filter items' />
+            <Main>
+                <main>
+                    <section className='inventory'>
+                        <input type='text' className='filter' onChange={e => this.updateFilter(e)} placeholder='Type here to filter items' />
 
-                    <table className='items-table'>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Barcode</th>
-                                <th>Name</th>
-                                <th>Quantity</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {inventoryItems}
-                        </tbody>
-                    </table>
-                </section>
-            </main>
+                        <table className='items-table'>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Barcode</th>
+                                    <th>Name</th>
+                                    <th>Quantity</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {inventoryItems}
+                            </tbody>
+                        </table>
+                    </section>
+                </main>
+            </Main>
         )
     }
 

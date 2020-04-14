@@ -9,7 +9,8 @@ class InvoiceItem extends React.Component {
             id: props.id,
             name: props.name,
             price: props.price,
-            quantity: props.quantity
+            quantity: props.quantity,
+            discount: props.discount
         }
     }
 

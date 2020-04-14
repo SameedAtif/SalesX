@@ -9,6 +9,4 @@ const knex = require('knex')({
     acquireConnectionTimeout: 10000
 })
 
-module.exports = {
-    knex: knex
-}
+module.exports = knex

@@ -1,10 +1,10 @@
 const express = require('express')
 
-const router = express.Router()
-
-const { knex } = require('../dbService')
+const knex = require('../services/dbService')
 
 const tables = require('../schema')
+
+const router = express.Router()
 
 router.get('/', (req, res) => {
 
@@ -28,11 +28,12 @@ router.get('/setup-tables', async (req, res) => {
     try {
         for (const table in tables) {
             const exists = await knex.schema.withSchema('salesx').hasTable(table)
-                
+
             if (!exists) {
                 console.log(`Creating table ${table}...`)
-                return knex.schema.withSchema('salesx')
+                const result = await knex.schema.withSchema('salesx')
                     .createTable(table, tables[table])
+                console.log(`Created table ${table}`)
             } else {
                 console.log(`${table} table already exists!`)
             }
@@ -40,6 +41,7 @@ router.get('/setup-tables', async (req, res) => {
 
         res.send('OK')
     } catch (ex) {
+        console.log(ex)
         res.status(400).send('FAIL')
     }
 })

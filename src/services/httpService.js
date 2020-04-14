@@ -2,7 +2,7 @@ import axios from 'axios'
 import logger from './logService'
 import notificationService from './notificationService'
 
-axios.defaults.baseURL = process.env.REACT_APP_LOCAL_API_URL
+axios.defaults.baseURL = process.env.REACT_APP_API_URL
 
 axios.interceptors.response.use(null, error => {
     const expectedError =

@@ -1,5 +1,7 @@
 import React from 'react'
 
+import XButton from '../../components/common/XButton/XButton'
+
 import http from '../../services/httpService'
 import notificationService from '../../services/notificationService'
 
@@ -7,6 +9,7 @@ import './Prelude.css'
 
 const apiEndpoint = '/prelude'
 
+// TODO: better move all this checking to 'splash.html'. Makes much more sense.
 class Prelude extends React.Component {
     constructor(props) {
         super(props)
@@ -103,7 +106,9 @@ class Prelude extends React.Component {
                     {this.state.statusCode === 'FAIL' ?
                         <div>
                             <h2>Please contact info@example.com or retry.</h2>
-                            <a href='/#'>RETRY</a>
+                            <XButton text='RETRY' clickHandler={e => {
+                                console.log('retrying')
+                            }} />
                         </div> : ''}
                 </div>
             </div>

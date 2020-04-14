@@ -19,7 +19,7 @@ class Items extends React.Component {
                 { id: "33", name: "Dummy 3", price: "100" }
             ]
         }
-    }    
+    }
 
     async componentDidMount() {
         const { data: items } = await http.get('/items')

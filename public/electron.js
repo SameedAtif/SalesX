@@ -33,6 +33,9 @@ function createSplashWindow(pageSrc, { bg = '#ffffff', show = false, transparent
         frame: false,
         show: show,
         transparent: transparent,
+        webPreferences: {
+            nodeIntegration: true
+        }
     })
 
     window.loadURL(
@@ -50,19 +53,14 @@ function createWindowMain(show = true) {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
-    // setTimeout(() => {
-        let mainWindow = createWindowMain(false)
-        let splashWindow = createSplashWindow('splash.html')
+    let mainWindow = createWindowMain(false)
+    let splashWindow = createSplashWindow('splash.html')
 
-        splashWindow.once('ready-to-show', () => splashWindow.show())
+    splashWindow.once('ready-to-show', () => splashWindow.show())
 
-        mainWindow.once('ready-to-show', () => {
-            setTimeout(() => {
-                splashWindow.destroy();
-                mainWindow.show()
-            }, 2500)
-        })
-    // }, 0)
+    splashWindow.once('closed', () => {
+        mainWindow.show()
+    })
 })
 
 // Quit when all windows are closed.

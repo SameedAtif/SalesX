@@ -1,0 +1,7 @@
+main#auth {
+    grid-template-rows: 0.1fr 1fr 50px;
+}
+
+main#auth > div, main#auth > section.card {
+    grid-column: span 12;
+}

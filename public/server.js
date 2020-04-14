@@ -3,9 +3,11 @@ const fs = require('fs')
 const isDev = require('electron-is-dev')
 const express = require('express')
 const cors = require('cors')
-const { knex } = require('./dbService')
+const knex = require('./services/dbService')
 
 const prelude = require('./routes/prelude')
+const auth = require('./routes/auth')
+const transactions = require('./routes/transactions')
 
 const app = express()
 const PORT = 3005
@@ -18,6 +20,8 @@ app.use(express.json())
 
 /* Routes */
 app.use('/prelude', prelude)
+app.use('/auth', auth)
+app.use('/transactions', transactions)
 
 app.get('/', (req, res) => {
     res.send('Hello world')

@@ -1,5 +1,6 @@
 import React from 'react'
 
+import Main from '../../components/templates/Main'
 import VideoDeviceSelector from '../../components/VideoDeviceSelector/VideoDeviceSelector'
 
 class Settings extends React.Component {
@@ -13,13 +14,15 @@ class Settings extends React.Component {
     render() {
 
         return (
-            <main>
-                <section>
-                    <h3>Barcode Scanning Configuration</h3>
+            <Main>
+                <main>
+                    <section>
+                        <h3>Barcode Scanning Configuration</h3>
 
-                    <VideoDeviceSelector />
-                </section>
-            </main>
+                        <VideoDeviceSelector />
+                    </section>
+                </main>
+            </Main>
         )
     }
 }
