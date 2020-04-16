@@ -1,26 +1,22 @@
-//import { toast } from 'react-toastify'
-//import 'react-toastify/dist/ReactToastify.min.css'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.min.css'
 
-//toast.configure()
+toast.configure()
 
 function alertInfo(msg) {
-    //toast.info(msg)
-    alert('Info: ' + msg)
+    toast.info(msg)
 }
 
 function alertWarning(msg) {
-    //toast.warn(msg)
-    alert('Warning: ' + msg)
+    toast.warn(msg)
 }
 
 function alertSuccess(msg) {
-    //toast.success(msg)
-    alert('Success: ' + msg)
+    toast.success(msg)
 }
 
 function alertDanger(msg) {
-    //toast.error(msg)
-    alert('Danger: ' + msg)
+    toast.error(msg)
 }
 
 export default {

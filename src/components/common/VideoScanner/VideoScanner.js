@@ -26,34 +26,43 @@ class VideoScanner extends React.Component {
         const videoInputDevices = await this.codeReader.listVideoInputDevices()
         if (!videoInputDevices) {
             notificationService.alertWarning('No video input device found!')
-            // TODO hide video element
-            return
+            return this.setState({ videoInputDevice: null })
         }
 
         const { data } = await http.get('http://localhost:3005/input-video-device')
-        this.setState({ videoInputDevice: data.videoInputDevice }, async () => {
-            if (this.state.videoInputDevice !== null) {
-                let savedDevice = videoInputDevices.find(device => device.label === this.state.videoInputDevice)
-                if (!savedDevice) {
-                    notificationService.alertInfo('Could not find saved device. Using default video input device!')
-                    savedDevice = videoInputDevices[0]
-                }
-
-                this.startBarcodeScanning(savedDevice.deviceId)
+        if (data.videoInputDevice !== null) {
+            let savedDevice = videoInputDevices.find(device => device.label === data.videoInputDevice)
+            if (!savedDevice) {
+                notificationService.alertInfo('Could not find saved device. Using default video input device!')
+                this.setState({ videoInputDevice: videoInputDevices[0] })
+                savedDevice = videoInputDevices[0]
             } else {
-                notificationService.alertInfo('Saved device is null. Using default video input device!')
-                this.startBarcodeScanning(videoInputDevices[0].deviceId)
+                notificationService.alertInfo('Using the saved video input device for barcode scanning!')
+                this.setState({ videoInputDevice: savedDevice })
             }
-        })
+
+            this.startBarcodeScanning(savedDevice.deviceId)
+        } else {
+            notificationService.alertInfo('Saved device is null. Using default video input device!')
+            this.setState({ videoInputDevice: videoInputDevices[0] })
+            this.startBarcodeScanning(videoInputDevices[0].deviceId)
+        }
     }
 
     render() {
+        if (this.state.videoInputDevice)
+            return (
+                <video
+                    id='barcode-scanner'
+                    width="300"
+                    height="200"
+                    style={{ border: '1px solid gray', position: 'absolute', cursor: 'move' }}></video>
+            )
+
         return (
             <video
                 id='barcode-scanner'
-                width="300"
-                height="200"
-                style={{ border: '1px solid gray', position: 'absolute', cursor: 'move' }}></video>
+                style={{ display: 'none' }} />
         )
     }
 

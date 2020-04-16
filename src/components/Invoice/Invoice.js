@@ -1,6 +1,6 @@
 import React from 'react'
 import InvoiceItem from './InvoiceItem'
-import XButton from '../common/XButton/XButton'
+import XButton from '../common/xbutton/xbutton'
 
 import notificationService from '../../services/notificationService'
 import http from '../../services/httpService'
@@ -20,11 +20,11 @@ class Invoice extends React.Component {
     }
 
     render() {
-        if (this.state.items.length === 0) {
-            return this.renderNoItems()
-        } else {
-            return this.renderItems()
-        }
+        return (
+            <section className="invoice card depth-3">
+                {(this.state.items.length === 0) ? this.renderNoItems() : this.renderItems()}
+            </section>
+        )
     }
 
     calculateTotalPayment() {
@@ -38,7 +38,7 @@ class Invoice extends React.Component {
     async completeTransacation() {
         if (this.state.amountPaid < this.calculateTotalPayment())
             return notificationService.alertDanger('Not enough funds to complete transaction!')
-        
+
         try {
             const result = await http.post('/transactions', {
                 items: this.state.items,
@@ -49,7 +49,7 @@ class Invoice extends React.Component {
             console.log(result)
             notificationService.alertSuccess('Transaction Complete')
             this.reset()
-        } catch({ response }) {
+        } catch ({ response }) {
             console.log(response)
             notificationService.alertDanger(response)
         }
@@ -87,32 +87,32 @@ class Invoice extends React.Component {
     setPaymentMethod(index) {
         this.setState({ paymentMethod: index })
     }
-    
+
     addItem(itemData) {
         const itemIndex = this.state.items.findIndex(item => itemData.id === item.id)
-            if (itemIndex >= 0) {
-                this.setState(({ items }) => ({
-                    items: [
-                        ...items.slice(0, itemIndex),
-                        {
-                            ...items[itemIndex],
-                            quantity: items[itemIndex].quantity + 1
-                        },
-                        ...items.slice(itemIndex + 1)
-                    ]
-                }))
-            } else {
-                const newItem = itemData
-                newItem.quantity = 1
-                this.setState({ items: [...this.state.items, newItem] })
-            }
+        if (itemIndex >= 0) {
+            this.setState(({ items }) => ({
+                items: [
+                    ...items.slice(0, itemIndex),
+                    {
+                        ...items[itemIndex],
+                        quantity: items[itemIndex].quantity + 1
+                    },
+                    ...items.slice(itemIndex + 1)
+                ]
+            }))
+        } else {
+            const newItem = itemData
+            newItem.quantity = 1
+            this.setState({ items: [...this.state.items, newItem] })
+        }
     }
 
     renderNoItems() {
         return (
-            <section className="invoice">
+            <React.Fragment>
                 No items in invoice. Select any from items list to add to invoice.
-            </section>
+            </React.Fragment>
         )
     }
 
@@ -127,7 +127,7 @@ class Invoice extends React.Component {
         })
 
         return (
-            <section className="invoice" onClick={this.props.clickHandler}>
+            <React.Fragment>
                 <table style={{ width: '100%', maxHeight: '200px', overflowY: 'scroll' }}>
                     <tbody>
                         {items}
@@ -171,7 +171,7 @@ class Invoice extends React.Component {
                     <XButton text='Print' />
                     <XButton text='Clear' clickHandler={() => this.reset()} />
                 </div>
-            </section>
+            </React.Fragment>
         )
     }
 }

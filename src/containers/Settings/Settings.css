@@ -1,0 +1,7 @@
+.video-selector {
+    grid-column: span 3;
+}
+
+.employee-account {
+    grid-column: span 3;
+}

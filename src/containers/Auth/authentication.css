@@ -1,7 +1,10 @@
 main#auth {
-    grid-template-rows: 0.1fr 1fr 50px;
+    grid-template-rows: repeat(12, 1fr);
+    height: 100vh;
+    background-size: cover;
 }
 
 main#auth > div, main#auth > section.card {
     grid-column: span 12;
+    grid-row: span 4;
 }

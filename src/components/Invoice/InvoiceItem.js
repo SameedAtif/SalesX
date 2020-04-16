@@ -1,5 +1,5 @@
 import React from 'react'
-import XButton from '../common/XButton/XButton';
+import XButton from '../common/xbutton/xbutton';
 
 class InvoiceItem extends React.Component {
     constructor(props) {

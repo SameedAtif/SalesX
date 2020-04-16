@@ -1,7 +1,7 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 
-import XButton from '../common/XButton/XButton'
+import XButton from '../common/xbutton/xbutton'
 import StatusLight from '../common/StatusLight/StatusLight'
 
 import authService from '../../services/authService'
@@ -9,7 +9,7 @@ import authService from '../../services/authService'
 const Main = props => {
     const currentEmployee = authService.getCurrentUser()
     return (
-        <div className='container'>
+        <div className='grid-container' id='main-grid'>
             <header>
                 <XButton text={`${currentEmployee.firstName} ${currentEmployee.lastName}`} />
                 <NavLink to='/dashboard' className='btn'>Dashboard</NavLink>

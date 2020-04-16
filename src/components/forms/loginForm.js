@@ -3,7 +3,7 @@ import Joi from '@hapi/joi'
 
 import authService from '../../services/authService'
 
-import Form from '../common/form'
+import Form from '../common/form/form'
 
 class LoginForm extends Form {
     constructor(props) {
@@ -37,13 +37,13 @@ class LoginForm extends Form {
 
     render() {
         return (
-            <div>
+            <React.Fragment>
                 <form onSubmit={this.submitHandler}>
                     {this.renderInput('emailOrPhone', 'Email or Phone Number')}
                     {this.renderInput('password', 'Password', 'password')}
                     {this.renderButton('Login')}
                 </form>
-            </div>
+            </React.Fragment>
         )
     }
 }

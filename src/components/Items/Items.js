@@ -39,7 +39,7 @@ class Items extends React.Component {
             <React.Fragment>
                 <VideoScanner />
 
-                <section className='items-list'>
+                <section className='items-list card depth-3'>
                     <input type='text' className='filter' onChange={e => this.updateFilter(e)} placeholder='Type here to filter items' />
 
                     <table className='items-table'>

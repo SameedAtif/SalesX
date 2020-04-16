@@ -50,7 +50,7 @@ class Settings extends React.Component {
         return (
             <Main>
                 <main>
-                    <section className='inventory'>
+                    <section className='inventory card depth-3'>
                         <input type='text' className='filter' onChange={e => this.updateFilter(e)} placeholder='Type here to filter items' />
 
                         <table className='items-table'>

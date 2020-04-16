@@ -1,9 +1,8 @@
 import React from 'react'
 
-import XButton from '../../components/common/XButton/XButton'
+import XButton from '../../components/common/xbutton/xbutton'
 
 import http from '../../services/httpService'
-import notificationService from '../../services/notificationService'
 
 import './Prelude.css'
 
@@ -38,7 +37,6 @@ class Prelude extends React.Component {
             return data
         } catch ({ response }) {
             this.setState({ statusCode: 'FAIL' })
-            notificationService.alertDanger(response.data)
             return 'FAIL'
         }
     }
@@ -56,7 +54,6 @@ class Prelude extends React.Component {
             return data
         } catch ({ response }) {
             this.setState({ status: 'Could not connect to database', statusCode: 'FAIL' })
-            notificationService.alertDanger(response.data)
             return 'FAIL'
         }
     }
@@ -74,7 +71,6 @@ class Prelude extends React.Component {
             return data
         } catch ({ response }) {
             this.setState({ status: 'Necessary tables could not be created', statusCode: 'FAIL' })
-            notificationService.alertDanger(response.data)
             return 'FAIL'
         }
     }
@@ -107,7 +103,7 @@ class Prelude extends React.Component {
                         <div>
                             <h2>Please contact info@example.com or retry.</h2>
                             <XButton text='RETRY' clickHandler={e => {
-                                console.log('retrying')
+                                window.location.reload()
                             }} />
                         </div> : ''}
                 </div>

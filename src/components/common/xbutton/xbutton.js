@@ -1,6 +1,6 @@
 import React from 'react'
 
-import './XButton.css'
+import './xbutton.css'
 
 const XButton = (props) => {
     return (

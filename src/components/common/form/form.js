@@ -1,9 +1,12 @@
 import React from 'react'
 import Joi from '@hapi/joi'
 
-import notificationService from '../../services/notificationService'
+import notificationService from '../../../services/notificationService'
 
-import Input from './input'
+import XInput from '../xinput/xinput'
+import XButton from '../xbutton/xbutton'
+
+import './form.css'
 
 class Form extends React.Component {
 
@@ -59,7 +62,7 @@ class Form extends React.Component {
         const { formData, errors } = this.state
 
         return (
-            <Input
+            <XInput
                 type={type}
                 name={name}
                 label={label}
@@ -71,8 +74,8 @@ class Form extends React.Component {
 
     renderButton(text) {
         return (
-            <div className='form-group'>
-                <button type='submit'>{text}</button>
+            <div className='form-group' style={{textAlign: 'center'}}>
+                <XButton text={text} clickHandler={this.submitHandler} />
             </div>
         )
     }
