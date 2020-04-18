@@ -1,5 +1,5 @@
 import React from 'react'
-import XButton from '../../XButton/XButton'
+import XButton from '../../common/xbutton/xbutton'
 
 class Item extends React.Component {
     constructor(props) {

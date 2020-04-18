@@ -1,6 +1,9 @@
 import React from 'react'
 import InvoiceItem from './InvoiceItem'
-import XButton from '../XButton/XButton'
+import XButton from '../common/xbutton/xbutton'
+
+import notificationService from '../../services/notificationService'
+import http from '../../services/httpService'
 
 class Invoice extends React.Component {
     constructor(props) {
@@ -10,15 +13,45 @@ class Invoice extends React.Component {
             id: props.id,
             items: [],
             discount: 0,
-            customerPaid: 0
+            amountPaid: 0,
+            paymentMethods: ['Cash', 'Credit/Debit Card', 'Paypal'],
+            paymentMethod: 0
         }
     }
 
     render() {
-        if (this.state.items.length === 0) {
-            return this.renderNoItems()
-        } else {
-            return this.renderItems()
+        return (
+            <section className="invoice card depth-3">
+                {(this.state.items.length === 0) ? this.renderNoItems() : this.renderItems()}
+            </section>
+        )
+    }
+
+    calculateTotalPayment() {
+        let total = 0
+        this.state.items.forEach((item) => {
+            total += (item.price * item.quantity)
+        })
+        return total
+    }
+
+    async completeTransacation() {
+        if (this.state.amountPaid < this.calculateTotalPayment())
+            return notificationService.alertDanger('Not enough funds to complete transaction!')
+
+        try {
+            const result = await http.post('/transactions', {
+                items: this.state.items,
+                discount: this.state.discount,
+                paymentMethod: this.state.paymentMethod,
+                amountPaid: this.state.amountPaid
+            })
+            console.log(result)
+            notificationService.alertSuccess('Transaction Complete')
+            this.reset()
+        } catch ({ response }) {
+            console.log(response)
+            notificationService.alertDanger(response)
         }
     }
 
@@ -26,7 +59,7 @@ class Invoice extends React.Component {
         this.setState({
             items: [],
             discount: 0,
-            customerPaid: 0
+            amountPaid: 0
         })
     }
 
@@ -50,45 +83,51 @@ class Invoice extends React.Component {
             this.addItem(e.itemData)
         })
     }
-    
+
+    setPaymentMethod(index) {
+        this.setState({ paymentMethod: index })
+    }
+
     addItem(itemData) {
         const itemIndex = this.state.items.findIndex(item => itemData.id === item.id)
-            console.log(itemIndex)
-            if (itemIndex >= 0) {
-                this.setState(({ items }) => ({
-                    items: [
-                        ...items.slice(0, itemIndex),
-                        {
-                            ...items[itemIndex],
-                            quantity: items[itemIndex].quantity + 1
-                        },
-                        ...items.slice(itemIndex + 1)
-                    ]
-                }))
-            } else {
-                const newItem = itemData
-                newItem.quantity = 1
-                this.setState({ items: [...this.state.items, newItem] })
-            }
+        if (itemIndex >= 0) {
+            this.setState(({ items }) => ({
+                items: [
+                    ...items.slice(0, itemIndex),
+                    {
+                        ...items[itemIndex],
+                        quantity: items[itemIndex].quantity + 1
+                    },
+                    ...items.slice(itemIndex + 1)
+                ]
+            }))
+        } else {
+            const newItem = itemData
+            newItem.quantity = 1
+            this.setState({ items: [...this.state.items, newItem] })
+        }
     }
 
     renderNoItems() {
         return (
-            <div className="invoice">
+            <React.Fragment>
                 No items in invoice. Select any from items list to add to invoice.
-            </div>
+            </React.Fragment>
         )
     }
 
     renderItems() {
-        let total = 0
+        const total = this.calculateTotalPayment()
         const items = this.state.items.map((item, index) => {
-            total += (item.price * item.quantity)
-            return <InvoiceItem key={item.id} id={item.id} name={item.name} price={item.price} quantity={item.quantity} removeHandler={() => this.remove(index)} />
+            return <InvoiceItem key={item.id} id={item.id} name={item.name} price={item.price} quantity={item.quantity} discount={0} removeHandler={() => this.remove(index)} />
+        })
+
+        const paymentOptions = this.state.paymentMethods.map((item, index) => {
+            return <option key={index}>{item}</option>
         })
 
         return (
-            <div className="invoice" onClick={this.props.clickHandler}>
+            <React.Fragment>
                 <table style={{ width: '100%', maxHeight: '200px', overflowY: 'scroll' }}>
                     <tbody>
                         {items}
@@ -111,21 +150,28 @@ class Invoice extends React.Component {
                 </div>
 
                 <div>
+                    <h4>Payment Method</h4>
+                    <select onChange={(e) => this.setPaymentMethod(e.target.selectedIndex)}>
+                        {paymentOptions}
+                    </select>
+                </div>
+
+                <div>
                     <h4>Customer paid</h4>
-                    <input type='number' defaultValue='0' min='0' onChange={(e) => this.setState({ customerPaid: e.target.value })} />
+                    <input type='number' value={this.state.amountPaid} min='0' onChange={(e) => this.setState({ amountPaid: e.target.value })} />
                 </div>
 
                 <div>
                     <p>Customer Balance</p>
-                    <p style={{ fontSize: '24px' }}>${this.state.customerPaid - (total - (total * this.state.discount))}</p>
+                    <p style={{ fontSize: '24px' }}>${this.state.amountPaid - (total - (total * this.state.discount))}</p>
                 </div>
 
                 <div className='flex-container'>
-                    <XButton text='Complete Transaction' />
+                    <XButton text='Complete Transaction' clickHandler={() => this.completeTransacation()} />
                     <XButton text='Print' />
                     <XButton text='Clear' clickHandler={() => this.reset()} />
                 </div>
-            </div>
+            </React.Fragment>
         )
     }
 }

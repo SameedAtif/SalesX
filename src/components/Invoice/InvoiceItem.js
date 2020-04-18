@@ -1,5 +1,5 @@
 import React from 'react'
-import XButton from '../XButton/XButton';
+import XButton from '../common/xbutton/xbutton';
 
 class InvoiceItem extends React.Component {
     constructor(props) {
@@ -9,7 +9,8 @@ class InvoiceItem extends React.Component {
             id: props.id,
             name: props.name,
             price: props.price,
-            quantity: props.quantity
+            quantity: props.quantity,
+            discount: props.discount
         }
     }
 

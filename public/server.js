@@ -3,18 +3,11 @@ const fs = require('fs')
 const isDev = require('electron-is-dev')
 const express = require('express')
 const cors = require('cors')
-const knex = require('knex')({
-    client: 'mysql',
-    connection: {
-        host: '127.0.0.1',
-        user: 'root',
-        password: '',
-        database: 'salesx'
-    },
-    acquireConnectionTimeout: 10000
-})
+const knex = require('./services/dbService')
 
-const { createTablesIfTheyDontExist } = require('./schema')
+const prelude = require('./routes/prelude')
+const auth = require('./routes/auth')
+const transactions = require('./routes/transactions')
 
 const app = express()
 const PORT = 3005
@@ -23,10 +16,13 @@ const PORT = 3005
 app.use(cors({
     origin: 'http://localhost:3000'
 }))
-
 app.use(express.json())
 
 /* Routes */
+app.use('/prelude', prelude)
+app.use('/auth', auth)
+app.use('/transactions', transactions)
+
 app.get('/', (req, res) => {
     res.send('Hello world')
 })
@@ -59,7 +55,7 @@ app.route('/input-video-device')
     })
     .post((req, res) => {
         if (req.body.videoInputDevice) {
-            const rawdata = fs.readFileSync(path.join(__dirname, './config.json'))
+            const rawdata = fs.readFileSync(path.join(__dirname, 'config.json'))
             const json = JSON.parse(rawdata)
 
             json.videoInputDevice = req.body.videoInputDevice
@@ -68,12 +64,10 @@ app.route('/input-video-device')
 
             res.send('saved')
         } else {
-            res.send('malformed request')
+            res.status(400).send('malformed request')
         }
     })
 
 app.listen(PORT, () => console.log(`Express server listening on port ${PORT}`))
-
-createTablesIfTheyDontExist(knex)
 
 module.exports = app

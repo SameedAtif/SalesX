@@ -3,9 +3,13 @@ html {
     color: #c2c2c2;
 }
 
-.container {
+.grid-container {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
+}
+
+#main-grid {
+    height: 100vh;
     grid-template-rows: 50px 1fr 50px;
 }
 
@@ -28,29 +32,32 @@ header {
 
 footer {
     justify-content: flex-start;
+    position: absolute;
+    bottom: 0;
+    padding: 10px 0;
+    width: 100%;
+    background-color: crimson;
 }
 
 main {
     display: grid;
 }
 
-.items-list, .invoice {
+section.card {
     margin: 15px;
     padding: 15px;
+}
+
+.depth-1 {
+    background-color: #121212;
+}
+
+.depth-2 {
+    background-color: #232323;
+}
+
+.depth-3 {
     background-color: #2f2e2e;
-}
-
-.items-list {
-    grid-column: span 8;
-}
-
-.invoice {
-    grid-column: span 4;
-}
-
-.invoice .summary {
-    display: flex;
-    justify-content: space-between;
 }
 
 input {

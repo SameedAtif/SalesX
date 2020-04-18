@@ -1,88 +1,43 @@
 import React from 'react'
 
-import { BrowserQRCodeReader } from '@zxing/library'
-import axios from 'axios';
+import authService from '../../services/authService'
+
+import Main from '../../components/templates/Main'
+import VideoDeviceSelector from '../../components/VideoDeviceSelector/VideoDeviceSelector'
+import XButton from '../../components/common/xbutton/xbutton'
+
+import './Settings.css'
 
 class Settings extends React.Component {
-    constructor(props) {
-        super(props)
 
-        this.codeReader = new BrowserQRCodeReader()
-
-        this.state = {
-            selectedDevice: 0,
-            videoDevices: []
-        }
-    }
-
-    componentWillMount() {
-        this.updateVideoDevices()
-
-        axios.get('http://localhost:3005/input-video-device')
-            .then(response => {
-                this.setState({ inputVideoDeviceId: response.data.inputVideoDeviceId })
-            })
+    logout() {
+        authService.logout()
+        window.location = '/#/dashboard'
     }
 
     render() {
-        const options = this.state.videoDevices.map(device => {
-            return <option key={device.deviceId} value={device.deviceId}>{device.label}</option>
-        })
+        const currEmployee = authService.getCurrentUser()
+
         return (
-            <main>
-                <h1>Settings page...</h1>
-                <video
-                    id="video"
-                    width="300"
-                    height="200"
-                    style={{ border: '1px solid gray' }}
-                ></video>
+            <Main>
+                <main>
+                    <section class='card depth-3 video-selector'>
+                        <h3>Barcode Scanning Configuration</h3>
 
-                <select onChange={(e) => { this.updateSelectedDevice(e.target.selectedIndex) }}>
-                    {options}
-                </select>
-            </main>
+                        <VideoDeviceSelector />
+                    </section>
+
+                    <section class='card depth-3 employee-account'>
+                        <h3>Logged in as</h3>
+
+                        <div>
+                            <h2>{currEmployee.firstName} {currEmployee.lastName}</h2>
+                            <XButton text='Logout' clickHandler={this.logout} />
+                        </div>
+                    </section>
+                </main>
+            </Main>
         )
-    }
-
-    updateSelectedDevice(index) {
-        this.setState({ selectedDevice: index })
-
-        axios.post('http://localhost:3005/input-video-device', {
-            'videoInputDevice': this.state.videoDevices[index].label
-        }).then(response => {
-            console.log(response)
-        })
-    }
-
-    updateVideoDevices() {
-        this.codeReader
-            .listVideoInputDevices()
-            .then(videoInputDevices => {
-                this.setState({ videoDevices: videoInputDevices })
-            })
-            .catch(err => console.error(err))
-    }
-
-    sleep(ms) {
-        const date = Date.now()
-        let currentDate = null
-        do {
-            currentDate = Date.now()
-        } while (currentDate - date < ms)
-    }
-
-    renderVideo() {
-        this.codeReader
-            .decodeOnceFromVideoDevice(this.state.videoDevices[this.state.selectedDevice].deviceId, 'video')
-            .then(result => console.log(result.text))
-            .catch(err => console.error('lmao', err))
-    }
-
-    componentWillUnmount() {
-        this.codeReader.stopStreams()
-
-        console.log('Unmounted Settings')
     }
 }
 
